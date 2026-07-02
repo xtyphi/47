@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>47 · Аутбаунд-система с AI-обвязкой — коммерческое предложение</title>
+<style>
+  /* ============================================================
+     47 · GTM-инжиниринг — коммерческое предложение
+     Self-contained. Инлайн-CSS, без внешних зависимостей.
+     Палитра: ink + warm paper + один акцент (electric lime).
+     ============================================================ */
+
+  :root{
+    /* ЧИСТО МОНОХРОМ: чёрный / белый / серый, нейтральные оттенки, без тёплых/цветных тонов */
+    --ink:        #0E0E11;   /* near-black neutral — тёмные секции + текст */
+    --ink-2:      #191A1D;   /* карточка/поверхность на тёмном */
+    --ink-line:   rgba(255,255,255,.10);
+    --ink-line-2: rgba(255,255,255,.17);
+
+    --paper:      #F4F4F5;   /* нейтральный off-white — светлые секции */
+    --paper-2:    #E9E9EB;   /* альтернативная светлая секция */
+    --surface:    #FFFFFF;   /* карточка на светлом */
+    --line:       #E4E4E7;   /* волосяная линия на светлом */
+    --line-2:     #D4D4D8;
+
+    --text:       #17181B;   /* основной текст на светлом */
+    --muted:      #6C6E73;   /* приглушённый текст на светлом */
+    --paper-txt:  #ECECEE;   /* текст на тёмном */
+    --muted-dk:   #9A9BA1;   /* приглушённый на тёмном */
+
+    /* эмфазис — БЕЗ цвета, только контраст: чёрное на светлом / белое на тёмном */
+    --accent:     #FFFFFF;   /* эмфазис на ТЁМНОМ фоне */
+    --accent-2:   #EDEDEF;
+    --accent-ink: #0E0E11;   /* текст на белом эмфазисе */
+    --accent-dk:  #0E0E11;   /* эмфазис на СВЕТЛОМ фоне */
+
+    /* контекстный эмфазис (перекрывается на тёмных блоках ниже) */
+    --em:      #0E0E11;      /* заливка эмфазиса — по умолчанию (светлый фон) чёрная */
+    --em-on:   #FFFFFF;      /* текст на заливке эмфазиса */
+    --em-soft: rgba(15,15,18,.06);
+    --em-line: rgba(15,15,18,.20);
+
+    --maxw: 1140px;
+    --pad: clamp(20px, 5vw, 64px);
+    --r: 16px;
+    --r-lg: 22px;
+
+    --f-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+              "Inter", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --f-mono: "SF Mono", ui-monospace, "JetBrains Mono", "Roboto Mono",
+              Menlo, Consolas, monospace;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; background:var(--paper); }
+  body{
+    margin:0;
+    font-family:var(--f-sans);
+    background:var(--paper);
+    color:var(--text);
+    line-height:1.55;
+    font-size:17px;
+    letter-spacing:-.01em;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    font-feature-settings:"kern" 1, "liga" 1;
+  }
+  h1,h2,h3{ margin:0; font-weight:680; letter-spacing:-.03em; line-height:1.04; }
+  p{ margin:0; }
+  a{ color:inherit; text-decoration:none; }
+  strong{ font-weight:660; }
+
+  /* ---- layout helpers ---- */
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad); }
+  .section{ padding:clamp(64px, 9vw, 128px) 0; position:relative; }
+  .section--tight{ padding:clamp(48px,7vw,96px) 0; }
+  .ink-bg{ background:var(--ink); color:var(--paper-txt); }
+  .paper-2-bg{ background:var(--paper-2); }
+  section[id]{ scroll-margin-top:84px; }
+  /* на тёмных блоках эмфазис становится белым (контраст вместо цвета) */
+  .ink-bg, .hero, .foot, .kpi-band, .econ-row.primary, .g-card.fix{
+    --em:#FFFFFF; --em-on:#0E0E11; --em-soft:rgba(255,255,255,.10); --em-line:rgba(255,255,255,.24);
+  }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--f-mono); font-size:12.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); font-weight:500;
+  }
+  .ink-bg .eyebrow{ color:var(--muted-dk); }
+  .eyebrow .idx{ color:var(--accent-dk); font-weight:700; }
+  .ink-bg .eyebrow .idx{ color:var(--accent); }
+  .eyebrow::before{
+    content:""; width:22px; height:1.5px; background:var(--em); display:inline-block;
+  }
+
+  .h2{ font-size:clamp(28px, 4.4vw, 46px); margin-top:20px; }
+  .lead{ font-size:clamp(18px,2.1vw,21px); color:var(--muted); line-height:1.5; }
+  .ink-bg .lead{ color:var(--muted-dk); }
+  .measure{ max-width:56ch; }
+  .measure-sm{ max-width:46ch; }
+
+  .accent-txt{ color:var(--accent-dk); }
+  .ink-bg .accent-txt{ color:var(--accent); }
+
+  /* mark / подсветка ключевого */
+  .mark{ color:var(--em); }
+  .underline-accent{
+    text-decoration:underline;
+    text-decoration-color:var(--em);
+    text-decoration-thickness:2px;
+    text-underline-offset:3px;
+    text-decoration-skip-ink:auto;
+    transition:text-decoration-color .18s;
+  }
+  .underline-accent:hover{ text-decoration-color:var(--muted); }
+
+  /* =========================================================
+     STICKY NAV
+     ========================================================= */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px var(--pad);
+    transition:background .25s ease, border-color .25s ease, backdrop-filter .25s ease;
+    border-bottom:1px solid transparent;
+  }
+  .nav.scrolled{
+    background:rgba(246,245,241,.82);
+    backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{ display:flex; align-items:baseline; gap:10px; font-weight:700; letter-spacing:-.04em; color:var(--text); }
+  .brand .num{
+    font-size:20px; line-height:1;
+    background:#fff; color:var(--ink);
+    padding:3px 7px 4px; border-radius:7px; letter-spacing:-.02em;
+  }
+  .nav.scrolled .brand .num{ background:var(--ink); color:#fff; }
+  .brand .lbl{ font-family:var(--f-mono); font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:500; }
+  .nav-links{ display:flex; gap:26px; align-items:center; }
+  .nav-links a{ font-size:14px; color:var(--muted); font-weight:500; letter-spacing:0; transition:color .18s; }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--ink); color:#fff; padding:9px 16px; border-radius:999px;
+    font-size:14px; font-weight:560; transition:transform .18s, background .18s;
+  }
+  .nav-cta:hover{ transform:translateY(-1px); }
+  .nav-cta svg{ width:14px; height:14px; }
+  @media (max-width:820px){ .nav-links{ display:none; } }
+
+  /* =========================================================
+     HERO
+     ========================================================= */
+  .hero{
+    background:var(--ink); color:var(--paper-txt);
+    position:relative; overflow:hidden;
+    padding:clamp(120px,17vw,190px) 0 clamp(64px,9vw,104px);
+  }
+  /* тонкая инженерная сетка */
+  .hero::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(120% 90% at 70% 0%, #000 30%, transparent 78%);
+    -webkit-mask-image:radial-gradient(120% 90% at 70% 0%, #000 30%, transparent 78%);
+    pointer-events:none;
+  }
+  .hero::after{
+    content:""; position:absolute; top:-30%; right:-10%;
+    width:60vw; height:60vw; max-width:760px; max-height:760px;
+    background:radial-gradient(circle at center, rgba(255,255,255,.05), transparent 62%);
+    pointer-events:none;
+  }
+  .hero .wrap{ position:relative; z-index:2; }
+  .hero-top{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px 22px;
+    padding-bottom:clamp(48px,8vw,92px);
+  }
+  .hero-top .lbl{ font-family:var(--f-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted-dk); }
+  @media (max-width:560px){ .hero-top .lbl:last-child{ display:none; } }
+  .hero h1{
+    font-size:clamp(38px, 7vw, 82px);
+    font-weight:700; letter-spacing:-.04em; line-height:1.0;
+    max-width:16ch; color:#C9CBD0;   /* база — приглушённо-светлая; ключевое слово (.mark) — чистый белый */
+  }
+  .hero .sub{
+    margin-top:clamp(24px,3.4vw,36px);
+    font-size:clamp(18px,2.2vw,22px);
+    line-height:1.5; color:var(--muted-dk);
+    max-width:52ch; font-weight:420; letter-spacing:-.015em;
+  }
+  .hero .sub b{ color:var(--paper-txt); font-weight:560; }
+  .hero-chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:clamp(30px,4vw,44px); }
+  .chip{
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--ink-line-2); border-radius:999px;
+    padding:8px 15px; font-size:13.5px; color:var(--paper-txt);
+    font-family:var(--f-mono); letter-spacing:.01em; background:rgba(255,255,255,.02);
+  }
+  .chip .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); }
+  .scroll-cue{
+    margin-top:clamp(40px,6vw,72px);
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--f-mono); font-size:11.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted-dk);
+  }
+  .scroll-cue .bar{ position:relative; width:34px; height:1.5px; background:var(--ink-line-2); overflow:hidden; }
+  .scroll-cue .bar::after{ content:""; position:absolute; inset:0; width:40%; background:var(--accent); animation:cue 2.4s ease-in-out infinite; }
+  @keyframes cue{ 0%{ transform:translateX(-120%);} 60%,100%{ transform:translateX(260%);} }
+
+  /* =========================================================
+     BUTTONS
+     ========================================================= */
+  .btn{
+    display:inline-flex; align-items:center; gap:9px;
+    font-weight:560; font-size:15.5px; letter-spacing:-.01em;
+    padding:14px 24px; border-radius:999px; cursor:pointer;
+    border:1px solid transparent; transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn svg{ width:16px; height:16px; }
+  .btn-accent{ background:var(--accent); color:var(--accent-ink); }
+  .btn-accent:hover{ transform:translateY(-2px); box-shadow:0 12px 30px -12px rgba(255,255,255,.24); }
+  .btn-ink{ background:var(--ink); color:#fff; }
+  .btn-ink:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -14px rgba(12,14,18,.5); }
+  .btn-ghost{ background:transparent; color:var(--paper-txt); border-color:var(--ink-line-2); }
+  .btn-ghost:hover{ border-color:var(--accent); color:#fff; }
+
+  /* =========================================================
+     PIPELINE (block 02)
+     ========================================================= */
+  .pipe{ display:grid; grid-template-columns:repeat(4, 1fr); gap:0; margin-top:clamp(32px,4vw,52px); }
+  .pipe-node{ position:relative; padding:26px 22px; }
+  .pipe-node:not(:last-child)::after{
+    content:""; position:absolute; top:44px; right:-1px; width:2px; bottom:-1px; /* placeholder */
+  }
+  .pipe-line{ position:relative; }
+  .node{
+    background:var(--ink-2); border:1px solid var(--ink-line);
+    border-radius:var(--r); padding:22px 20px; height:100%;
+    display:flex; flex-direction:column; gap:12px; position:relative; z-index:2;
+    transition:border-color .2s, transform .2s;
+  }
+  .node:hover{ border-color:var(--ink-line-2); transform:translateY(-3px); }
+  .node .n-ico{
+    width:40px; height:40px; border-radius:11px; display:grid; place-items:center;
+    background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.30); color:var(--accent);
+  }
+  .node .n-ico svg{ width:20px; height:20px; }
+  .node .n-step{ font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-dk); }
+  .node .n-ttl{ font-size:17px; font-weight:600; color:var(--paper-txt); letter-spacing:-.02em; line-height:1.15; }
+  .pipe-grid{
+    display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+    align-items:center; gap:0; margin-top:clamp(32px,4vw,52px);
+  }
+  .pipe-arrow{ display:grid; place-items:center; padding:0 10px; color:var(--accent); }
+  .pipe-arrow svg{ width:32px; height:16px; }
+  .pipe-caption{ margin-top:26px; color:var(--muted-dk); font-size:15.5px; display:flex; align-items:center; gap:12px; }
+  .pipe-caption .tick{ color:var(--accent); flex:none; }
+  @media (max-width:800px){
+    .pipe-grid{ grid-template-columns:1fr; gap:0; }
+    .pipe-arrow{ padding:8px 0; transform:rotate(90deg); }
+  }
+
+  /* =========================================================
+     GENERIC GRID / CARDS
+     ========================================================= */
+  .split{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(28px,5vw,72px); align-items:start; }
+  @media (max-width:840px){ .split{ grid-template-columns:1fr; gap:22px; } }
+
+  .cards{ display:grid; gap:18px; margin-top:clamp(30px,4vw,48px); }
+  .cards-3{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:840px){ .cards-3{ grid-template-columns:1fr; } }
+
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+    padding:26px 24px; transition:transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .card:hover{ transform:translateY(-3px); box-shadow:0 20px 40px -28px rgba(20,22,27,.35); border-color:var(--line-2); }
+  .ink-bg .card{ background:var(--ink-2); border-color:var(--ink-line); }
+  .ink-bg .card:hover{ border-color:var(--ink-line-2); box-shadow:none; }
+  .card .c-ico{
+    width:44px; height:44px; border-radius:12px; display:grid; place-items:center; margin-bottom:16px;
+    background:var(--paper-2); border:1px solid var(--line); color:var(--text);
+  }
+  .ink-bg .card .c-ico{ background:rgba(255,255,255,.10); border-color:rgba(255,255,255,.28); color:var(--accent); }
+  .card .c-ico svg{ width:22px; height:22px; }
+  .card h3{ font-size:19px; font-weight:620; letter-spacing:-.02em; margin-bottom:8px; }
+  .ink-bg .card h3{ color:var(--paper-txt); }
+  .card p{ color:var(--muted); font-size:15.5px; line-height:1.5; }
+  .ink-bg .card p{ color:var(--muted-dk); }
+
+  /* callout — «Ядро» / «Зачем так» */
+  .callout{
+    display:flex; gap:18px; align-items:flex-start;
+    border-left:3px solid var(--em); padding:18px 22px;
+    background:var(--paper-2); border-radius:0 12px 12px 0; margin-top:26px;
+  }
+  .ink-bg .callout{ background:rgba(255,255,255,.03); }
+  .callout .co-k{ font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-dk); margin-bottom:6px; }
+  .ink-bg .callout .co-k{ color:var(--accent); }
+  .callout p{ font-size:16px; color:var(--text); line-height:1.5; }
+  .ink-bg .callout p{ color:var(--paper-txt); }
+
+  /* «Ядро — движок обогащения» hero-stat */
+  .core{
+    display:grid; grid-template-columns:auto 1fr; gap:22px; align-items:center;
+    border:1px solid var(--ink-line); border-radius:var(--r-lg);
+    background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
+    padding:clamp(22px,3vw,32px); margin-bottom:34px;
+  }
+  .core .badge{
+    font-family:var(--f-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent-ink); background:var(--accent); padding:8px 12px; border-radius:8px; white-space:nowrap;
+  }
+  .core .core-ttl{ font-size:clamp(20px,2.6vw,27px); font-weight:640; letter-spacing:-.025em; color:var(--paper-txt); }
+  .core .core-sub{ color:var(--muted-dk); font-size:15.5px; margin-top:4px; }
+  @media (max-width:620px){ .core{ grid-template-columns:1fr; } }
+
+  /* checklist / feature list */
+  .flist{ list-style:none; margin:0; padding:0; display:grid; gap:14px; }
+  .flist li{ display:flex; gap:14px; align-items:flex-start; }
+  .flist .fi{
+    flex:none; width:24px; height:24px; border-radius:7px; display:grid; place-items:center; margin-top:1px;
+    background:var(--em); color:var(--em-on);
+  }
+  .flist .fi svg{ width:14px; height:14px; }
+  .flist span.t{ font-size:16.5px; line-height:1.5; color:var(--text); }
+  .ink-bg .flist span.t{ color:var(--paper-txt); }
+  .flist span.t b{ font-weight:620; }
+
+  /* Запад → РФ mini-scheme */
+  .xrf{ display:grid; grid-template-columns:1fr auto 1fr; gap:18px; align-items:stretch; margin-top:clamp(28px,4vw,40px); }
+  .xrf-col{ border:1px solid var(--line); border-radius:var(--r); padding:22px; background:var(--surface); }
+  .xrf-col.dead .tag{ color:var(--muted); }
+  .xrf-col.live{ border-color:rgba(15,15,18,.20); background:linear-gradient(180deg,rgba(255,255,255,.10),var(--surface)); }
+  .xrf-col.live .tag{ color:var(--accent-dk); }
+  .xrf .tag{ font-family:var(--f-mono); font-size:11px; letter-spacing:.13em; text-transform:uppercase; margin-bottom:14px; font-weight:600; }
+  .xrf ul{ list-style:none; margin:0; padding:0; display:grid; gap:9px; }
+  .xrf li{ font-size:15px; color:var(--text); display:flex; align-items:center; gap:9px; }
+  .xrf .dead li{ color:var(--muted); text-decoration:line-through; text-decoration-color:rgba(20,20,22,.32); }
+  .xrf .mid{ display:grid; place-items:center; color:var(--muted); }
+  .xrf .mid svg{ width:30px; height:30px; }
+  .xrf li .li-dot{ width:6px; height:6px; border-radius:50%; flex:none; background:var(--line-2); }
+  .xrf .live li .li-dot{ background:var(--em); }
+  @media (max-width:760px){ .xrf{ grid-template-columns:1fr; } .xrf .mid{ transform:rotate(90deg); padding:4px 0; } }
+
+  /* =========================================================
+     ROADMAP (blocks 05–06)
+     ========================================================= */
+  .road{ position:relative; display:grid; gap:22px; }
+  .phase{
+    position:relative; display:grid; grid-template-columns:auto 1fr; gap:clamp(20px,3vw,40px);
+    padding-left:6px;
+  }
+  .phase .spine{ position:relative; width:44px; display:flex; flex-direction:column; align-items:center; }
+  .phase .knob{
+    width:44px; height:44px; border-radius:50%; display:grid; place-items:center; flex:none;
+    background:var(--ink); color:var(--accent); font-family:var(--f-mono); font-weight:700; font-size:15px;
+    border:2px solid var(--ink); z-index:2;
+  }
+  .phase .knob.soft{ background:var(--surface); color:var(--text); border:2px solid var(--line-2); }
+  .phase .rail{ width:2px; flex:1; background:linear-gradient(var(--line-2), transparent); margin-top:6px; }
+  .phase:last-child .rail{ display:none; }
+  .phase-body{ padding-bottom:8px; }
+  .phase-tag{ font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+  .phase-tag b{ color:var(--accent-dk); font-weight:700; }
+  .phase h3{ font-size:clamp(22px,3vw,30px); font-weight:660; letter-spacing:-.03em; margin:8px 0 6px; }
+  .phase .p-sub{ color:var(--muted); font-size:16.5px; max-width:60ch; margin-bottom:20px; }
+  .phase .card{ background:var(--surface); }
+
+  .kpi-band{
+    margin-top:20px; display:flex; align-items:center; gap:16px;
+    background:var(--ink); color:var(--paper-txt); border-radius:14px; padding:20px 24px;
+  }
+  .kpi-band .kpi-ico{ flex:none; width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3); color:var(--accent); display:grid; place-items:center; }
+  .kpi-band p{ font-size:16.5px; line-height:1.45; }
+  .kpi-band b{ color:var(--accent); }
+
+  /* =========================================================
+     ECONOMICS (block 07)
+     ========================================================= */
+  .econ{ display:grid; gap:14px; margin-top:clamp(30px,4vw,46px); }
+  .econ-row{
+    display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center;
+    border:1px solid var(--line); border-radius:var(--r); padding:24px clamp(20px,3vw,30px);
+    background:var(--surface);
+  }
+  .econ-row.primary{
+    border:1.5px solid var(--ink); background:var(--ink); color:var(--paper-txt);
+    position:relative; overflow:hidden;
+  }
+  .econ-row.primary::after{
+    content:""; position:absolute; top:0; left:0; width:4px; height:100%; background:var(--accent);
+  }
+  .econ-row.muted{ background:transparent; border-style:dashed; }
+  .econ-l .stage{ font-family:var(--f-mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin-bottom:7px; }
+  .econ-row.primary .stage{ color:var(--accent); }
+  .econ-l .name{ font-size:19px; font-weight:600; letter-spacing:-.02em; }
+  .econ-row.primary .name{ color:#fff; }
+  .econ-l .desc{ font-size:14px; color:var(--muted); margin-top:4px; }
+  .econ-row.primary .desc{ color:var(--muted-dk); }
+  .econ-r{ text-align:right; white-space:nowrap; }
+  .econ-r .price{ font-size:clamp(22px,3.2vw,30px); font-weight:680; letter-spacing:-.03em; font-feature-settings:"tnum" 1; }
+  .econ-row.primary .price{ color:var(--accent); }
+  .econ-r .price .tools{ display:block; font-size:14px; font-weight:500; color:var(--muted); letter-spacing:-.01em; margin-top:2px; }
+  .econ-row.primary .price .tools{ color:var(--muted-dk); }
+  .econ-r .later{ font-size:15px; color:var(--muted); font-weight:500; }
+  @media (max-width:620px){
+    .econ-row{ grid-template-columns:1fr; gap:12px; }
+    .econ-r{ text-align:left; }
+  }
+  .econ-note{ margin-top:22px; color:var(--muted); font-size:15px; max-width:66ch; display:flex; gap:12px; }
+  .econ-note svg{ flex:none; width:18px; height:18px; color:var(--accent-dk); margin-top:2px; }
+
+  /* =========================================================
+     GUARANTEES (block 08)
+     ========================================================= */
+  .g2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:clamp(30px,4vw,46px); }
+  @media (max-width:760px){ .g2{ grid-template-columns:1fr; } }
+  .g-card{ border:1px solid var(--line); border-radius:var(--r); padding:28px; background:var(--surface); }
+  .g-card.fix{ background:var(--ink); color:var(--paper-txt); border-color:var(--ink); }
+  .g-card .g-h{ display:flex; align-items:center; gap:11px; margin-bottom:18px; }
+  .g-card .g-h .gi{ width:34px; height:34px; border-radius:9px; display:grid; place-items:center; flex:none; }
+  .g-card .gi.ok{ background:var(--em); color:var(--em-on); }
+  .g-card .gi.lock{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.3); color:var(--accent); }
+  .g-card .g-h span{ font-size:18px; font-weight:640; letter-spacing:-.02em; }
+  .g-card.fix .g-h span{ color:#fff; }
+  .g-card ul{ list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+  .g-card li{ display:flex; gap:11px; font-size:15.5px; line-height:1.45; color:var(--text); }
+  .g-card.fix li{ color:var(--muted-dk); }
+  .g-card li::before{ content:""; flex:none; width:6px; height:6px; border-radius:50%; background:var(--line-2); margin-top:9px; }
+  .g-card.fix li::before{ background:var(--accent); }
+  .g-card.fix li b{ color:#fff; }
+
+  /* =========================================================
+     SUMMARY / КОРОТКО (block 08) — всё предложение на одном экране
+     ========================================================= */
+  .sum-pipe{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin-top:clamp(26px,3.5vw,42px); }
+  .sum-pipe .p{ font-size:15.5px; font-weight:560; letter-spacing:-.01em; color:var(--text); }
+  .sum-pipe .a{ color:var(--muted); font-size:15px; }
+  .sum-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:18px; overflow:hidden; margin-top:22px;
+  }
+  .sum-cell{ background:var(--surface); padding:22px 24px; }
+  .sum-cell .k{ font-family:var(--f-mono); font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin-bottom:9px; }
+  .sum-cell .v{ font-size:17px; font-weight:580; letter-spacing:-.02em; color:var(--text); line-height:1.3; }
+  .sum-cell .v small{ display:block; font-size:13.5px; font-weight:450; color:var(--muted); margin-top:5px; letter-spacing:0; line-height:1.4; }
+  @media (max-width:820px){ .sum-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .sum-grid{ grid-template-columns:1fr; } }
+
+  .sum-econ{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:clamp(18px,3vw,32px);
+    background:var(--ink); color:var(--paper-txt); border-radius:16px; padding:24px clamp(22px,3vw,32px); margin-top:16px;
+  }
+  .sum-econ .lbl{ font-family:var(--f-mono); font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:#fff; line-height:1.5; white-space:nowrap; }
+  .sum-econ .txt{ font-size:15.5px; line-height:1.45; color:var(--muted-dk); }
+  .sum-econ .txt b{ color:#fff; font-weight:560; }
+  .sum-econ .big{ font-size:clamp(23px,3.1vw,31px); font-weight:680; letter-spacing:-.03em; color:#fff; white-space:nowrap; text-align:right; font-feature-settings:"tnum" 1; }
+  .sum-econ .big small{ display:block; font-size:13px; font-weight:500; color:var(--muted-dk); letter-spacing:-.01em; margin-top:2px; }
+  @media (max-width:720px){ .sum-econ{ grid-template-columns:1fr; gap:14px; } .sum-econ .big{ text-align:left; } }
+
+  .sum-art{ margin-top:22px; }
+  .sum-art .h{ font-family:var(--f-mono); font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+  .sum-art .items{ display:flex; flex-wrap:wrap; gap:10px; }
+  .sum-art .it{
+    display:inline-flex; align-items:center; gap:9px;
+    border:1px solid var(--line); border-radius:999px; padding:9px 16px; font-size:14.5px; color:var(--text); background:var(--surface);
+  }
+  .sum-art .it svg{ width:15px; height:15px; color:var(--em); flex:none; }
+
+  /* =========================================================
+     STACK / СТЕК (block 05) — из чего строим (предварительно)
+     ========================================================= */
+  .stack-note{
+    display:flex; gap:16px; align-items:flex-start;
+    border:1px dashed var(--line-2); background:var(--paper-2); border-radius:14px;
+    padding:18px 22px; margin-top:clamp(24px,3.4vw,36px);
+  }
+  .stack-note .tag{
+    flex:none; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--em-on); background:var(--em); padding:6px 10px; border-radius:6px; margin-top:2px;
+  }
+  .stack-note p{ font-size:15px; line-height:1.5; color:var(--text); }
+  .stack-note p b{ font-weight:620; }
+
+  .stack{ border:1px solid var(--line); border-radius:20px; overflow:hidden; background:var(--surface); margin-top:20px; }
+  .stk-row{ display:grid; grid-template-columns:0.82fr 1.6fr; gap:clamp(14px,3vw,40px); padding:22px clamp(22px,3vw,30px); align-items:start; }
+  .stk-row + .stk-row{ border-top:1px solid var(--line); }
+  .stk-l .n{ font-size:16.5px; font-weight:620; letter-spacing:-.02em; color:var(--text); display:flex; gap:9px; align-items:baseline; }
+  .stk-l .n i{ font-family:var(--f-mono); font-style:normal; font-size:12px; color:var(--muted); font-weight:500; }
+  .stk-l .d{ font-size:13.5px; color:var(--muted); margin-top:6px; line-height:1.4; }
+  .stk-chips{ display:flex; flex-wrap:wrap; gap:9px; }
+  .stk-chip{
+    display:inline-flex; align-items:center; gap:7px;
+    border:1px solid var(--line-2); border-radius:9px; padding:8px 13px; font-size:14px; font-weight:520;
+    color:var(--text); background:var(--paper);
+  }
+  .stk-chip.soft{ color:var(--muted); border-style:dashed; background:transparent; font-weight:480; }
+  .stk-chip .mut{ color:var(--muted); font-weight:450; font-size:12.5px; }
+  @media (max-width:720px){ .stk-row{ grid-template-columns:1fr; gap:12px; } }
+
+  /* =========================================================
+     NEXT STEP (block 09) — dark CTA band
+     ========================================================= */
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:clamp(34px,4vw,52px) 0; }
+  @media (max-width:760px){ .steps{ grid-template-columns:1fr; } }
+  .step{
+    border:1px solid var(--ink-line); border-radius:var(--r); padding:26px 24px;
+    background:rgba(255,255,255,.02); position:relative;
+  }
+  .step .s-num{
+    font-family:var(--f-mono); font-size:13px; font-weight:700; color:var(--accent-ink);
+    background:var(--accent); width:30px; height:30px; border-radius:8px; display:grid; place-items:center; margin-bottom:16px;
+  }
+  .step h3{ font-size:18px; font-weight:600; color:var(--paper-txt); letter-spacing:-.02em; margin-bottom:6px; }
+  .step p{ color:var(--muted-dk); font-size:15px; line-height:1.45; }
+  .cta-final{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:24px;
+    border-top:1px solid var(--ink-line); padding-top:clamp(30px,4vw,44px); margin-top:8px;
+  }
+  .cta-final .ct-l h3{ font-size:clamp(22px,3vw,30px); font-weight:660; letter-spacing:-.03em; color:#fff; }
+  .cta-final .ct-l p{ color:var(--muted-dk); margin-top:8px; font-size:16px; }
+
+  /* =========================================================
+     FOOTER
+     ========================================================= */
+  .foot{ background:var(--ink); color:var(--muted-dk); padding:34px 0; border-top:1px solid var(--ink-line); }
+  .foot .wrap{ display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; align-items:center; font-size:13.5px; }
+  .foot .brand .num{ font-size:16px; padding:2px 6px 3px; }
+  .foot .brand{ color:#fff; }
+  .foot a:hover{ color:var(--accent); }
+
+  /* =========================================================
+     REVEAL (progressive enhancement)
+     ========================================================= */
+  .js .reveal{ opacity:0; transform:translateY(16px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .js .reveal.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){
+    .js .reveal{ opacity:1 !important; transform:none !important; transition:none; }
+    html{ scroll-behavior:auto; }
+    .scroll-cue .bar::after{ animation:none; }
+  }
+
+  /* =========================================================
+     PRINT / PDF
+     ========================================================= */
+  @page{ size:A4; margin:0; }
+  @media print{
+    :root{ --pad:15mm; }
+    html,body{ background:#fff; }
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    .nav, .scroll-cue{ display:none !important; }
+    .js .reveal{ opacity:1 !important; transform:none !important; }
+    .section, .hero{ padding:16mm 0 !important; }
+    .hero{ padding-top:20mm !important; }
+    section, .foot{ break-inside:auto; }
+    /* не рвать карточки/строки/заголовки посередине */
+    .card, .node, .econ-row, .g-card, .phase, .xrf-col, .step,
+    .stk-row, .sum-cell, .callout, .sum-econ, .kpi-band, .core, .pipe-caption{ break-inside:avoid; }
+    h1, h2, .h2, .core-ttl{ break-after:avoid; }
+    .sum-grid, .stack, .econ, .g2, .steps{ break-inside:auto; }
+    a{ text-decoration:none; }
+    .underline-accent{ text-decoration:underline; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="47 — GTM-инжиниринг">
+    <span class="num">47</span>
+    <span class="lbl">GTM-инжиниринг</span>
+  </a>
+  <nav class="nav-links">
+    <a href="#offer">Предложение</a>
+    <a href="#system">Система</a>
+    <a href="#stack">Стек</a>
+    <a href="#rnd">R&amp;D</a>
+    <a href="#economics">Экономика</a>
+    <a href="#summary">Коротко</a>
+  </nav>
+  <a class="nav-cta" href="#next">
+    Следующий шаг
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-top">
+      <span class="lbl">Коммерческое&nbsp;предложение</span>
+      <span class="lbl">Агентство «47» · 2026</span>
+    </div>
+
+    <h1 class="reveal">От входящих и сарафана —<br>к <span class="mark">управляемому потоку сделок</span></h1>
+
+    <p class="sub reveal">Строю для «47» систему холодных B2B-продаж с AI-обвязкой: она находит нужные компании, вычисляет ЛПР и доводит до диалога. <b>За 3 месяца — от нуля до первых целевых встреч и сделок.</b></p>
+
+    <div class="hero-chips reveal">
+      <span class="chip"><span class="dot"></span>Аутбаунд под ключ</span>
+      <span class="chip"><span class="dot"></span>Движок обогащения данных</span>
+      <span class="chip"><span class="dot"></span>Ниша: застройщики</span>
+      <span class="chip"><span class="dot"></span>email · Telegram · звонки</span>
+    </div>
+
+    <div class="scroll-cue"><span class="bar"></span>Листайте</div>
+  </div>
+</section>
+
+<!-- ===================== 01 · ГДЕ ВЫ СЕЙЧАС ===================== -->
+<section class="section" id="now">
+  <div class="wrap split">
+    <div class="reveal">
+      <span class="eyebrow"><span class="idx">01</span> Где вы сейчас</span>
+      <h2 class="h2">Поток клиентов, который<br>трудно спрогнозировать</h2>
+    </div>
+    <div class="reveal">
+      <p class="lead measure">Клиенты приходят через входящие и сарафан. Такой поток то есть, то нет, и планировать рост на нём тяжело.</p>
+      <div class="callout" style="margin-top:28px">
+        <div>
+          <div class="co-k">Что нужно</div>
+          <p>Второй канал — управляемый. Аутбаунд, который приводит целевых клиентов планово, а не когда повезёт.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 02 · ЧТО ПРЕДЛАГАЮ (конвейер) ===================== -->
+<section class="section ink-bg" id="offer">
+  <div class="wrap">
+    <div class="reveal" style="max-width:60ch">
+      <span class="eyebrow"><span class="idx">02</span> Что предлагаю</span>
+      <h2 class="h2">Аутбаунд-система,<br>которая работает как конвейер</h2>
+      <p class="lead" style="margin-top:20px">Система сама находит компании из ваших ниш, собирает по ним данные, вычисляет ЛПР и готовит персональное касание. Человек подключается там, где решает.</p>
+    </div>
+
+    <!-- pipeline -->
+    <div class="pipe-grid reveal">
+      <div class="node">
+        <div class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h.01M13 17h.01"/></svg></div>
+        <div class="n-step">Шаг 01</div>
+        <div class="n-ttl">Нужная компания</div>
+      </div>
+      <div class="pipe-arrow"><svg viewBox="0 0 40 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h32M28 3l6 5-6 5"/></svg></div>
+      <div class="node">
+        <div class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+        <div class="n-step">Шаг 02</div>
+        <div class="n-ttl">Нужный человек — ЛПР</div>
+      </div>
+      <div class="pipe-arrow"><svg viewBox="0 0 40 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h32M28 3l6 5-6 5"/></svg></div>
+      <div class="node">
+        <div class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="n-step">Шаг 03</div>
+        <div class="n-ttl">Точное первое сообщение</div>
+      </div>
+      <div class="pipe-arrow"><svg viewBox="0 0 40 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h32M28 3l6 5-6 5"/></svg></div>
+      <div class="node">
+        <div class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg></div>
+        <div class="n-step">Шаг 04</div>
+        <div class="n-ttl">Встреча</div>
+      </div>
+    </div>
+
+    <div class="pipe-caption reveal">
+      <span class="tick"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      Результат — не разовые лиды, а поток, которым можно управлять и который можно масштабировать.
+    </div>
+    <div class="pipe-caption reveal">
+      <span class="tick"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      Это не веерная рассылка: каждое первое касание — адресное, под конкретную компанию и человека.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 03 · ПОЧЕМУ НЕ «ВКЛЮЧИТЬ ГОТОВОЕ» ===================== -->
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="reveal" style="max-width:60ch">
+      <span class="eyebrow"><span class="idx">03</span> Почему нельзя просто «включить готовое»</span>
+      <h2 class="h2">Западный стек в России<br>наполовину не работает</h2>
+      <p class="lead" style="margin-top:20px">Такие системы давно работают на Западе — на LinkedIn и связке инструментов вокруг него. В России LinkedIn заблокирован, и половина этого стека мертва.</p>
+    </div>
+
+    <!-- Запад → РФ scheme -->
+    <div class="xrf reveal">
+      <div class="xrf-col dead">
+        <div class="tag">Западный стек · в РФ мёртв</div>
+        <ul>
+          <li><span class="li-dot"></span>LinkedIn Sales Navigator</li>
+          <li><span class="li-dot"></span>Expandi</li>
+          <li><span class="li-dot"></span>Clay · Hunter</li>
+        </ul>
+      </div>
+      <div class="mid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M16 6l6 6-6 6"/></svg></div>
+      <div class="xrf-col live">
+        <div class="tag">Пересобранный движок · под РФ</div>
+        <ul>
+          <li><span class="li-dot"></span>Госреестры и отраслевые базы</li>
+          <li><span class="li-dot"></span>Российские источники данных</li>
+          <li><span class="li-dot"></span>Локальные каналы касаний</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout reveal">
+      <div>
+        <div class="co-k">Риск, который снимаем</div>
+        <p>На пересборке легко потерять деньги: есть <a class="underline-accent" href="https://vc.ru/life/2956241-chestnyj-opyt-vnedreniya-ii-v-biznes" target="_blank" rel="noopener">публичные истории, где на подрядчиках уходило до&nbsp;1,5&nbsp;млн&nbsp;₽ без результата</a>. Мой принцип обратный — сначала проверяю на вашем контуре, потом называю цифры.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 04 · КАК УСТРОЕНА СИСТЕМА ===================== -->
+<section class="section ink-bg" id="system">
+  <div class="wrap">
+    <div class="reveal" style="max-width:60ch">
+      <span class="eyebrow"><span class="idx">04</span> Как устроена система</span>
+      <h2 class="h2">Ядро — движок обогащения</h2>
+    </div>
+
+    <div class="core reveal" style="margin-top:28px">
+      <span class="badge">Ядро системы</span>
+      <div>
+        <div class="core-ttl">По компании движок сам собирает данные, находит рабочие адреса и готовит контекст под персонализацию</div>
+        <div class="core-sub">Реквизиты, руководители, сигналы вроде свежих вакансий — автоматически.</div>
+      </div>
+    </div>
+
+    <div class="cards cards-3">
+      <div class="card reveal">
+        <div class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>~80% из проверенных компонентов</h3>
+        <p>Собран из зрелых мировых модулей, адаптированных под российские источники: госреестры, отраслевые базы. Мы не пишем платформу с нуля — это снижает риск и сроки.</p>
+      </div>
+      <div class="card reveal">
+        <div class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M5.6 5.6l2.1 2.1M3 12h3M18 12h3M16.3 7.7l2.1-2.1M9 17h6M10 21h4M8 13a4 4 0 1 1 8 0c0 1.5-1 2.5-1.5 3.5H9.5C9 15.5 8 14.5 8 13"/></svg></div>
+        <h3>Нейросети пишут — человек проверяет</h3>
+        <p>ИИ готовит черновики касаний, человек проверяет факты и отправляет. Никакого «робота на автомате»: одно неточное письмо в холодную стоит вам репутации.</p>
+      </div>
+      <div class="card reveal">
+        <div class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></div>
+        <h3>Личные контакты ЛПР — доводим к максимуму</h3>
+        <p>В России нет LinkedIn, поэтому часть работы с личными контактами пока делается руками. Довести автоматизацию этого шага до максимума — одна из рабочих задач проекта.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 05 · СТЕК (из чего строим) ===================== -->
+<section class="section" id="stack">
+  <div class="wrap">
+    <div class="reveal" style="max-width:60ch">
+      <span class="eyebrow"><span class="idx">05</span> Стек</span>
+      <h2 class="h2">Из чего собираем движок</h2>
+    </div>
+
+    <div class="stack-note reveal">
+      <span class="tag">Предварительно</span>
+      <p>Так мы видим сборку <b>сейчас, по итогам ресёрча</b>. Финальный набор — какие именно инструменты — фиксируем в R&amp;D, часть проверяем в бою. Набор может измениться. Основа — проверенные открытые компоненты плюс российские API; платформу с нуля не строим.</p>
+    </div>
+
+    <div class="stack reveal">
+      <div class="stk-row">
+        <div class="stk-l"><div class="n"><i>01</i> Данные о компаниях</div><div class="d">Реквизиты, руководители, ИНН, проекты, сигналы найма</div></div>
+        <div class="stk-chips">
+          <span class="stk-chip">DaData</span>
+          <span class="stk-chip">Контур.Компас</span>
+          <span class="stk-chip">СПАРК</span>
+          <span class="stk-chip">ЕРЗ.РФ</span>
+          <span class="stk-chip">hh.ru</span>
+          <span class="stk-chip soft">2ГИС <span class="mut">проверяем</span></span>
+        </div>
+      </div>
+      <div class="stk-row">
+        <div class="stk-l"><div class="n"><i>02</i> Обогащение лидов</div><div class="d">Наш AI-скрейпер (аналог Clay) — собирает контекст под персонализацию</div></div>
+        <div class="stk-chips">
+          <span class="stk-chip">Crawl4AI</span>
+          <span class="stk-chip">Fire Enrich</span>
+          <span class="stk-chip">+ LLM</span>
+        </div>
+      </div>
+      <div class="stk-row">
+        <div class="stk-l"><div class="n"><i>03</i> Нейросети</div><div class="d">Черновики касаний, извлечение данных, персонализация</div></div>
+        <div class="stk-chips">
+          <span class="stk-chip">Claude <span class="mut">Max</span></span>
+          <span class="stk-chip">OpenRouter API <span class="mut">различные нейронки</span></span>
+        </div>
+      </div>
+      <div class="stk-row">
+        <div class="stk-l"><div class="n"><i>04</i> Оркестрация</div><div class="d">Связываем шаги в конвейер. Способ выбираем в R&amp;D</div></div>
+        <div class="stk-chips">
+          <span class="stk-chip">n8n</span>
+          <span class="stk-chip">Windmill</span>
+          <span class="stk-chip">LLM-агент (crewAI)</span>
+        </div>
+      </div>
+      <div class="stk-row">
+        <div class="stk-l"><div class="n"><i>05</i> Email: рассылка и прогрев</div><div class="d">Цепочки касаний, прогрев домена, чистка адресов</div></div>
+        <div class="stk-chips">
+          <span class="stk-chip">BillionMail</span>
+          <span class="stk-chip">Respondo</span>
+          <span class="stk-chip">Coldy / Emaylio</span>
+          <span class="stk-chip">email-verifier</span>
+        </div>
+      </div>
+      <div class="stk-row">
+        <div class="stk-l"><div class="n"><i>06</i> Каналы касаний</div><div class="d">Доставка сообщений до ЛПР</div></div>
+        <div class="stk-chips">
+          <span class="stk-chip">Email</span>
+          <span class="stk-chip">Telegram <span class="mut">вручную + через агента</span></span>
+          <span class="stk-chip">Звонки <span class="mut">живой оператор</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 06 · ЭТАПЫ (roadmap) ===================== -->
+<section class="section paper-2-bg" id="rnd">
+  <div class="wrap">
+    <div class="reveal" style="max-width:60ch; margin-bottom:clamp(36px,5vw,60px)">
+      <span class="eyebrow"><span class="idx">06</span> План работы</span>
+      <h2 class="h2">Два этапа: сначала проверяем,<br>потом масштабируем</h2>
+    </div>
+
+    <div class="road">
+      <!-- Phase 1 -->
+      <div class="phase reveal">
+        <div class="spine"><div class="knob">R&amp;D</div><div class="rail"></div></div>
+        <div class="phase-body">
+          <div class="phase-tag"><b>Этап 1</b> · 2 недели – 1 месяц</div>
+          <h3>R&amp;D: погружение + сборка движка</h3>
+          <p class="p-sub">Готовых российских решений под эту задачу нет. Поэтому первый этап — погружение в ваш бизнес плюс сборка и обкатка движка на одной нише.</p>
+
+          <div class="card">
+            <ul class="flist">
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t"><b>Разбираюсь в вашей компании:</b> команда, процессы, текущий оффер, ниша — чтобы строить под вас, а не «вообще».</span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t"><b>Готовлю заострённый оффер</b> и позиционирование под холодный заход — под вашу нишу и под систему, которую строим.</span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t"><b>Собираю рабочий движок</b> на нише застройщиков и обкатываю на пробной выборке. Массовую генерацию базы — на Этап 2, уже с бюджетом.</span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t"><b>Оформляю ваши кейсы</b> под аутбаунд.</span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t"><b>Считаю финмодель:</b> стоимость лида и мощность движка (сколько лидов в месяц) — с погрешностью до&nbsp;10%; прогноз конверсий и окупаемости — по бенчмаркам.</span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t"><b>Даю прямой ответ:</b> сработает или нет — и если да, во сколько обойдётся такая работа. Со сметой и планом на Этап 2.</span></li>
+            </ul>
+          </div>
+
+          <div class="callout" style="background:var(--surface)">
+            <div>
+              <div class="co-k">Зачем так</div>
+              <p>Реальные конверсии и итоговую экономику уточняем на первых неделях запуска — их даёт только живой аутрич. Вы платите за проверяемый результат и решение на данных, а не за обещание вслепую.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase reveal">
+        <div class="spine"><div class="knob soft">2</div></div>
+        <div class="phase-body">
+          <div class="phase-tag"><b>Этап 2</b> · до конца 3-го месяца</div>
+          <h3>Сборка и запуск</h3>
+          <p class="p-sub">После R&amp;D у нас есть проверенный движок и понятные метрики. Фиксируем KPI на период — и идём к нему.</p>
+
+          <div class="card">
+            <ul class="flist">
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">Дособираем движок до рабочего потока.</span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t"><b>Генерируем и обогащаем боевую базу</b> по нише.</span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">Запускаем касания по нише: <b>email, Telegram, звонки.</b></span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">Доводим до целевых встреч и первых сделок.</span></li>
+              <li><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">Каждую неделю — отчёт по цифрам: сколько компаний, касаний, ответов, встреч.</span></li>
+            </ul>
+          </div>
+
+          <div class="kpi-band">
+            <span class="kpi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span>
+            <p>Цель этих недель одна — <b>закрыть KPI, который зафиксируем по итогам R&amp;D.</b></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 07 · ЭКОНОМИКА ===================== -->
+<section class="section" id="economics">
+  <div class="wrap">
+    <div class="reveal split" style="align-items:end">
+      <div>
+        <span class="eyebrow"><span class="idx">07</span> Экономика</span>
+        <h2 class="h2">Сейчас фиксируем<br>только первый этап</h2>
+      </div>
+      <p class="lead measure">Остальное — по его итогам, когда будут проверенные цифры и точный план.</p>
+    </div>
+
+    <div class="econ reveal">
+      <div class="econ-row primary">
+        <div class="econ-l">
+          <div class="stage">Этап 1 · фиксируем сейчас</div>
+          <div class="name">R&amp;D — диагностика и сборка движка</div>
+          <div class="desc">2 недели – 1 месяц</div>
+        </div>
+        <div class="econ-r">
+          <div class="price">50&#8239;000&nbsp;₽<span class="tools">+ ~10&#8239;000&nbsp;₽ на инструменты</span></div>
+        </div>
+      </div>
+
+      <div class="econ-row muted">
+        <div class="econ-l">
+          <div class="stage">Этап 2</div>
+          <div class="name">Работа, сборка движка, инструменты</div>
+        </div>
+        <div class="econ-r"><span class="later">фиксируем по итогам R&amp;D</span></div>
+      </div>
+
+      <div class="econ-row muted">
+        <div class="econ-l">
+          <div class="stage">По итогам</div>
+          <div class="name">KPI и возможный success fee</div>
+        </div>
+        <div class="econ-r"><span class="later">фиксируем по итогам R&amp;D</span></div>
+      </div>
+    </div>
+
+    <div class="econ-note reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <p>То, что мы обсуждаем сейчас, — гипотеза. Точную конфигурацию, стоимость и KPI зафиксирую, когда проверю систему на вашем контуре. Ориентир на весь период — в рамках того, что уже обсуждали.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 08 · ГАРАНТИИ ===================== -->
+<section class="section paper-2-bg" id="guarantees">
+  <div class="wrap">
+    <div class="reveal" style="max-width:56ch">
+      <span class="eyebrow"><span class="idx">08</span> Гарантии и рамки</span>
+      <h2 class="h2">Что обещаю — и что назову только после проверки</h2>
+    </div>
+
+    <div class="g2 reveal">
+      <div class="g-card">
+        <div class="g-h">
+          <span class="gi ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span>Гарантирую</span>
+        </div>
+        <ul>
+          <li>Прозрачный процесс и еженедельные отчёты по цифрам.</li>
+          <li>Осязаемые артефакты R&amp;D.</li>
+          <li>Полный доступ ко всему, что собрано.</li>
+        </ul>
+      </div>
+      <div class="g-card fix">
+        <div class="g-h">
+          <span class="gi lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+          <span>Фиксирую после R&amp;D</span>
+        </div>
+        <ul>
+          <li><b>Конкретный KPI</b> по встречам и сделкам.</li>
+          <li>Называть цифры до проверки на вашем контуре — непрофессионально.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 08 · КОРОТКО (резюме на один экран) ===================== -->
+<section class="section" id="summary">
+  <div class="wrap">
+    <div class="reveal" style="max-width:60ch">
+      <span class="eyebrow"><span class="idx">09</span> Коротко</span>
+      <h2 class="h2">Всё предложение — на одном экране</h2>
+    </div>
+
+    <!-- конвейер одной строкой -->
+    <div class="sum-pipe reveal">
+      <span class="p">Нужная компания</span><span class="a">→</span>
+      <span class="p">Нужный человек — ЛПР</span><span class="a">→</span>
+      <span class="p">Точное первое сообщение</span><span class="a">→</span>
+      <span class="p">Встреча</span>
+    </div>
+
+    <!-- ключевые факты -->
+    <div class="sum-grid reveal">
+      <div class="sum-cell"><div class="k">Что строим</div><div class="v">Аутбаунд-система с AI-обвязкой<small>Находит компании, вычисляет ЛПР, готовит касание</small></div></div>
+      <div class="sum-cell"><div class="k">Ниша</div><div class="v">Застройщики<small>Старт продаж нового ЖК — ровно «вывод продукта на рынок»</small></div></div>
+      <div class="sum-cell"><div class="k">Каналы</div><div class="v">Email · Telegram · звонки<small>Набор может измениться; настраиваем на Этапе 2</small></div></div>
+      <div class="sum-cell"><div class="k">Этап 1 · R&amp;D</div><div class="v">2 недели – 1 месяц<small>Погружение + сборка движка на нише</small></div></div>
+      <div class="sum-cell"><div class="k">Этап 2 · запуск</div><div class="v">До конца 3-го месяца<small>Касания, целевые встречи, первые сделки</small></div></div>
+      <div class="sum-cell"><div class="k">Роль человека</div><div class="v">Проверяет и закрывает<small>ИИ пишет черновик — человек проверяет и отправляет</small></div></div>
+    </div>
+
+    <!-- что вы получаете (ценность) -->
+    <div class="callout reveal" style="margin-top:22px">
+      <div>
+        <div class="co-k">Что вы получаете</div>
+        <p>Предсказуемый поток целевых встреч вместо ожидания входящих — и проверенную экономику канала ещё до вложений в масштаб.</p>
+      </div>
+    </div>
+
+    <!-- экономика одной строкой -->
+    <div class="sum-econ reveal">
+      <span class="lbl">Фиксируем<br>сейчас</span>
+      <span class="txt">Оплачивается только <b>Этап 1 — R&amp;D</b>. Сборка движка, KPI и возможный success fee — <b>по итогам R&amp;D</b>, на проверенных цифрах.</span>
+      <span class="big">50&#8239;000&nbsp;₽<small>+ ~10&#8239;000&nbsp;₽ на инструменты</small></span>
+    </div>
+
+    <!-- артефакты R&D -->
+    <div class="sum-art reveal">
+      <div class="h">Осязаемые результаты R&amp;D</div>
+      <div class="items">
+        <span class="it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Рабочий движок на нише застройщиков</span>
+        <span class="it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Движок, обкатанный на пробе</span>
+        <span class="it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Заострённый оффер и позиционирование</span>
+        <span class="it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Ваши кейсы под аутбаунд</span>
+        <span class="it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Финмодель: стоимость лида и мощность движка</span>
+        <span class="it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Вердикт + смета и план на Этап 2</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 09 · СЛЕДУЮЩИЙ ШАГ ===================== -->
+<section class="section ink-bg" id="next">
+  <div class="wrap">
+    <div class="reveal" style="max-width:56ch">
+      <span class="eyebrow"><span class="idx">10</span> Следующий шаг</span>
+      <h2 class="h2">С чего начинаем</h2>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="s-num">1</div>
+        <h3>Согласуем R&amp;D и старт</h3>
+        <p>Финализируем рамку первого этапа и дату старта.</p>
+      </div>
+      <div class="step">
+        <div class="s-num">2</div>
+        <h3>Созвон-kickoff</h3>
+        <p>Разбираем план на первый этап и точки контакта.</p>
+      </div>
+      <div class="step">
+        <div class="s-num">3</div>
+        <h3>Запускаем R&amp;D</h3>
+        <p>Погружение, сборка движка, обкатка на пробе и вердикт.</p>
+      </div>
+    </div>
+
+    <div class="cta-final reveal">
+      <div class="ct-l">
+        <h3>По итогам R&amp;D фиксируем KPI, конфигурацию и цены</h3>
+        <p>Проверяемый результат вместо обещаний вслепую.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="foot">
+  <div class="wrap">
+    <span class="brand"><span class="num">47</span>&nbsp;&nbsp;Go-to-Market инжиниринг</span>
+    <span>Коммерческое предложение · 2026 · холодные B2B-продажи с AI-обвязкой</span>
+  </div>
+</footer>
+
+<script>
+  // progressive enhancement — контент виден без JS; JS только добавляет плавное появление
+  document.documentElement.classList.add('js');
+  (function(){
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    function showAll(){ els.forEach(function(el){ el.classList.add('in'); }); }
+    if(!('IntersectionObserver' in window)){ showAll(); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin:'0px 0px -8% 0px', threshold:0.08 });
+    els.forEach(function(el){ io.observe(el); });
+    // страховка: показать всё через 1.4с в любом случае
+    setTimeout(showAll, 1400);
+
+    // sticky nav фон при скролле
+    var nav = document.getElementById('nav');
+    function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > 40); }
+    onScroll(); window.addEventListener('scroll', onScroll, { passive:true });
+  })();
+</script>
+</body>
+</html>
